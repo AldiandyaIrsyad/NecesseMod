@@ -11,7 +11,7 @@ This mod focuses on balanced between classes in higher difficulties.
 - [ ] Added Rogue Classes (New weapon, armor, and trinket)
 - [ ] 
 
-
+## 
 
 ## Argument
 
@@ -88,3 +88,10 @@ necesse.entity.mobs.gameDamageType
       return armor * 0.5F;
    }
 ```
+
+mobBeforeHitCalculatedEvent
+```JAVA
+   public int getExpectedHealth() {
+      return this.prevented ? this.target.getHealth() : Math.max(this.target.getHealth() - this.damage, 0);
+   }
+   ```

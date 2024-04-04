@@ -1,0 +1,76 @@
+package necesse.level.gameObject;
+
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.util.List;
+import necesse.engine.Screen;
+import necesse.engine.sound.SoundEffect;
+import necesse.engine.tickManager.TickManager;
+import necesse.engine.util.GameRandom;
+import necesse.entity.mobs.GameDamage;
+import necesse.entity.mobs.PlayerMob;
+import necesse.entity.particle.FleshParticle;
+import necesse.entity.particle.Particle;
+import necesse.gfx.GameResources;
+import necesse.gfx.camera.GameCamera;
+import necesse.gfx.drawOptions.texture.TextureDrawOptionsEnd;
+import necesse.gfx.drawables.LevelSortedDrawable;
+import necesse.gfx.drawables.OrderableDrawables;
+import necesse.gfx.gameTexture.GameTexture;
+import necesse.level.maps.Level;
+import necesse.level.maps.light.GameLight;
+
+public class SpideriteArmorStandObject extends GameObject {
+   private GameTexture texture;
+
+   public SpideriteArmorStandObject(Color var1) {
+      super(new Rectangle(32, 32));
+      this.drawDamage = false;
+      this.objectHealth = 10;
+      this.attackThrough = true;
+      this.mapColor = var1;
+   }
+
+   public void loadTextures() {
+      super.loadTextures();
+      this.texture = GameTexture.fromFile("objects/spideritearmorstand");
+   }
+
+   public void spawnDestroyedParticles(Level var1, int var2, int var3) {
+      super.spawnDestroyedParticles(var1, var2, var3);
+      GameRandom var4 = GameRandom.globalRandom;
+
+      for(int var5 = 0; var5 < 4; ++var5) {
+         FleshParticle var6 = new FleshParticle(var1, this.texture, var5, 2, 32, var2 * 32 + 16, (float)(var3 * 32 + 16), 20.0F, (float)var4.getIntBetween(-100, 100), (float)var4.getIntBetween(-100, 100));
+         var1.entityManager.addParticle((Particle)var6, Particle.GType.IMPORTANT_COSMETIC);
+      }
+
+   }
+
+   public void addDrawables(List<LevelSortedDrawable> var1, OrderableDrawables var2, Level var3, int var4, int var5, TickManager var6, GameCamera var7, PlayerMob var8) {
+      GameLight var9 = var3.getLightLevel(var4, var5);
+      int var10 = var7.getTileDrawX(var4);
+      int var11 = var7.getTileDrawY(var5);
+      int var12 = var3.getObjectRotation(var4, var5) % 4;
+      int var13 = var12 % 2 == 0 ? -2 : 0;
+      final TextureDrawOptionsEnd var14 = this.texture.initDraw().sprite(var12 % 4, 0, 32, 64).light(var9).pos(var10, var11 - this.texture.getHeight() + 64 + var13);
+      var1.add(new LevelSortedDrawable(this, var4, var5) {
+         public int getSortY() {
+            return 16;
+         }
+
+         public void draw(TickManager var1) {
+            var14.draw();
+         }
+      });
+   }
+
+   public void attackThrough(Level var1, int var2, int var3, GameDamage var4) {
+      super.attackThrough(var1, var2, var3, var4);
+      this.playDamageSound(var1, var2, var3, true);
+   }
+
+   public void playDamageSound(Level var1, int var2, int var3, boolean var4) {
+      Screen.playSound(GameResources.cling, SoundEffect.effect((float)(var2 * 32 + 16), (float)(var3 * 32 + 16)).pitch(0.5F));
+   }
+}
