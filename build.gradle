@@ -5,9 +5,9 @@ plugins {
 // Change the values below this to your mods values
 // To change the project name, edit the settings.gradle file
 
-project.ext.modID = "uneiro.uneiro" // The unique id of your mod. Must be all lowercase and cannot use special characters.
-project.ext.modName = "Uneiro Mod" // The display name of your mod.
-project.ext.modVersion = "1.0" // Your current builds version. Must follow the xx.xx... format.
+project.ext.modID = "dragonopy.reimagined" // The unique id of your mod. Must be all lowercase and cannot use special characters.
+project.ext.modName = "Reimagined" // The display name of your mod.
+project.ext.modVersion = "0.01" // Your current builds version. Must follow the xx.xx... format.
 project.ext.gameVersion = "0.24.1" // The target game version.
 project.ext.modDescription = "Just an example mod" // Short description of what your mod is.
 project.ext.author = "Uneiro" // Your name
